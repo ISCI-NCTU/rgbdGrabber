@@ -55,12 +55,16 @@ link_directories(
   /usr/lib/
 )
 
-add_executable(realSenseGrabber
+add_library(rgbdGrabber SHARED
   ./src/realSenseGrabber.cpp
   )
-target_link_libraries (realSenseGrabber
+
+add_executable(realSenseGrabberApp
+  ./src/realSenseGrabberApp.cpp
+  )
+target_link_libraries (realSenseGrabberApp
   opencv_core opencv_highgui opencv_contrib opencv_imgproc
-  realsense
+  realsense rgbdGrabber
   )
 
 pods_install_headers(
