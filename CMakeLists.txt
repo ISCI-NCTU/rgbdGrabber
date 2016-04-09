@@ -27,10 +27,10 @@ endif()
 set(CMAKE_CXX_FLAGS_RELEASE "-g -Wall -Wno-deprecated -O2 -finline-functions -DNDEBUG -std=c++11")
 set(CMAKE_CXX_FLAGS_DEBUG "-g -Wno-deprecated -std=c++11")
 
-find_package (Eigen3 REQUIRED)
+#find_package (Eigen3 REQUIRED)
 #find_package (Boost 1.54 REQUIRED)
 find_package (OpenCV REQUIRED)
-find_package (PCL REQUIRED)
+#find_package (PCL REQUIRED)
 #find_package (VTK REQUIRED)
 #message(${EIGEN3_INCLUDE_DIR})
 #message(${Boost_LIBRARY_DIRS})
@@ -40,18 +40,18 @@ find_package (PCL REQUIRED)
 
 include_directories(
   include
-  ${EIGEN3_INCLUDE_DIR}
-  ${Boost_INCLUDE_DIRS}
-  ${PCL_INCLUDE_DIRS}
+#  ${EIGEN3_INCLUDE_DIR}
+#  ${Boost_INCLUDE_DIRS}
+#  ${PCL_INCLUDE_DIRS}
   ${OpenCV_INCLUDE_DIRS}
 #  ${VTK_INCLUDE_DIRS}
 #  /usr/include/
 )
 
 link_directories(
-  ${Boost_LIBRARY_DIRS}
-  ${VTK_LIBRARY_DIRS}
-  ${PCL_LIBRARY_DIRS}
+#  ${Boost_LIBRARY_DIRS}
+#  ${VTK_LIBRARY_DIRS}
+#  ${PCL_LIBRARY_DIRS}
   /usr/lib/
 )
 
