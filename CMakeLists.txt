@@ -1,7 +1,10 @@
-project(cudaPcl)
+#Copyright (c) 2016, Julian Straub <jstraub@csail.mit.edu> 
+#Licensed under the MIT license. See the license file LICENSE.
+
+project(rgbdGrabber)
 cmake_minimum_required(VERSION 2.4.6)
 
-set(POD_NAME cudaPcl)
+set(POD_NAME rgbdGrabber)
 include(cmake/pods.cmake)
 
 if(COMMAND cmake_policy)
