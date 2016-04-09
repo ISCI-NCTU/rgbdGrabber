@@ -21,7 +21,7 @@ RealSenseGrabber::~RealSenseGrabber() {
   delete ctx_;
 }
 
-void RealSenseGrabber::rgbd_cb(const uint16_t * depth, const uint8_t* rgb) {
+void RealSenseGrabber::rgbd_cb(const uint8_t* rgb, const uint16_t * depth) {
   cv::Mat dMap = cv::Mat(h_,w_,CV_16U,const_cast<uint16_t*>(depth));
   cv::Mat rgbMap = cv::Mat(h_,w_,CV_8UC3,const_cast<uint8_t*>(rgb));
   cv::Mat dColor = colorizeDepth(dMap, 30.,4000.);
@@ -40,7 +40,7 @@ void RealSenseGrabber::run() {
     const uint16_t * depth_frame = reinterpret_cast<const uint16_t *>(dev_->get_frame_data(rs::stream::depth));
     const uint8_t * color_frame = reinterpret_cast<const uint8_t *>(dev_->get_frame_data(rs::stream::color));
 //    const uint8_t * ir_frame = reinterpret_cast<const uint8_t *>(dev_->get_frame_data(rs::stream::infrared));
-    rgbd_cb(depth_frame, color_frame);
+    rgbd_cb(color_frame, depth_frame);
   }
 }
 }

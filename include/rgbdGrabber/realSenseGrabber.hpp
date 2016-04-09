@@ -25,7 +25,7 @@ class RealSenseGrabber {
 //  virtual void rgb_cb(const uint8_t* rgb, uint32_t w, uint32_t h) {
 //  };  
 
-  virtual void rgbd_cb(const uint16_t * depth, const uint8_t* rgb);
+  virtual void rgbd_cb(const uint8_t* rgb, const uint16_t * depth);
   virtual void run () ;
  protected:
   const uint32_t w_;
