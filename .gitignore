@@ -1,0 +1,10 @@
+build
+pod-build
+jsCore
+*~
+*.pyc
+*.csv
+tags
+*.swp
+*.swo
+*.lbl
