@@ -30,6 +30,7 @@ set(CMAKE_CXX_FLAGS_DEBUG "-g -Wno-deprecated -std=c++11")
 #find_package (Eigen3 REQUIRED)
 #find_package (Boost 1.54 REQUIRED)
 find_package (OpenCV REQUIRED)
+find_package (OpenNI2 REQUIRED)
 #find_package (PCL REQUIRED)
 #find_package (VTK REQUIRED)
 #message(${EIGEN3_INCLUDE_DIR})
@@ -43,6 +44,7 @@ include_directories(
 #  ${EIGEN3_INCLUDE_DIR}
 #  ${Boost_INCLUDE_DIRS}
 #  ${PCL_INCLUDE_DIRS}
+  ${OPENNI2_INCLUDE_DIR}
   ${OpenCV_INCLUDE_DIRS}
 #  ${VTK_INCLUDE_DIRS}
 #  /usr/include/
@@ -57,6 +59,11 @@ link_directories(
 
 add_library(rgbdGrabber SHARED
   ./src/realSenseGrabber.cpp
+  ./src/openni2Grabber.cpp
+  )
+target_link_libraries (rgbdGrabber
+  realsense ${OPENNI2_LIBRARY}
+  opencv_core opencv_highgui opencv_contrib opencv_imgproc
   )
 
 add_executable(realSenseGrabberApp
@@ -64,7 +71,15 @@ add_executable(realSenseGrabberApp
   )
 target_link_libraries (realSenseGrabberApp
   opencv_core opencv_highgui opencv_contrib opencv_imgproc
-  realsense rgbdGrabber
+  rgbdGrabber
+  )
+
+add_executable(openni2GrabberApp
+  ./src/openni2GrabberApp.cpp
+  )
+target_link_libraries (openni2GrabberApp
+  opencv_core opencv_highgui opencv_contrib opencv_imgproc
+  rgbdGrabber   
   )
 
 pods_install_headers(
