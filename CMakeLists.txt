@@ -60,10 +60,14 @@ link_directories(
 add_library(rgbdGrabber SHARED
   ./src/realSenseGrabber.cpp
   ./src/openni2Grabber.cpp
+  ./src/rgbdGrabberHelpers.cpp
   )
 target_link_libraries (rgbdGrabber
   realsense ${OPENNI2_LIBRARY}
   opencv_core opencv_highgui opencv_contrib opencv_imgproc
+  )
+target_link_libraries (rgbdGrabber
+  realsense
   )
 
 add_executable(realSenseGrabberApp
@@ -82,7 +86,10 @@ target_link_libraries (openni2GrabberApp
   rgbdGrabber   
   )
 
+pods_install_libraries(rgbdGrabber)
 pods_install_headers(
   ./include/rgbdGrabber/realSenseGrabber.hpp
+  ./include/rgbdGrabber/rgbdGrabberHelpers.hpp
+  ./include/rgbdGrabber/openni2Grabber.hpp
   DESTINATION rgbdGrabber)
 

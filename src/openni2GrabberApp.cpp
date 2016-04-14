@@ -6,7 +6,7 @@
 
 int main (int argc, char** argv)
 {
-  rgbdGrabber::Openni2Grabber g(640,480,60);
+  rgbdGrabber::Openni2Grabber g(640,480,30);
   g.run ();
   return (0);
 }

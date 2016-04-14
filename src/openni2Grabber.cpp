@@ -1,9 +1,10 @@
+
 #include <rgbdGrabber/openni2Grabber.hpp>
 
 namespace rgbdGrabber {
 
 Openni2Grabber::Openni2Grabber(int w, int h, int fps) :
-    width(w), height(h), fps(fps), initSuccessful(true)
+    w_(w), h_(h), fps(fps), initSuccessful(true)
 {
   // setup
   openni::Status rc = openni::STATUS_OK;
@@ -23,12 +24,12 @@ Openni2Grabber::Openni2Grabber(int w, int h, int fps) :
       openni::VideoMode depthMode;
       depthMode.setFps(fps);
       depthMode.setPixelFormat(openni::PIXEL_FORMAT_DEPTH_1_MM);
-      depthMode.setResolution(width, height);
+      depthMode.setResolution(w_, h_);
 
       openni::VideoMode colorMode;
       colorMode.setFps(fps);
       colorMode.setPixelFormat(openni::PIXEL_FORMAT_RGB888);
-      colorMode.setResolution(width, height);
+      colorMode.setResolution(w_, h_);
 
       rc = depthStream.create(device, openni::SENSOR_DEPTH);
       if (rc == openni::STATUS_OK) {
@@ -77,19 +78,19 @@ Openni2Grabber::Openni2Grabber(int w, int h, int fps) :
         formatMap[openni::PIXEL_FORMAT_GRAY16] = "GRAY16";
         formatMap[openni::PIXEL_FORMAT_JPEG] = "JPEG";
 
-        assert(findMode(width, height, fps) && "Sorry, mode not supported!");
+        assert(findMode(w_, h_, fps) && "Sorry, mode not supported!");
 
         latestDepthIndex.assign(-1);
         latestRgbIndex.assign(-1);
 
         for(int i = 0; i < numBuffers; i++) {
-          uint8_t * newImage = (uint8_t *)calloc(width * height * 3, sizeof(uint8_t));
+          uint8_t * newImage = (uint8_t *)calloc(w_ * h_ * 3, sizeof(uint8_t));
           rgbBuffers[i] = std::pair<uint8_t *, int64_t>(newImage, 0);
         }
 
         for(int i = 0; i < numBuffers; i++) {
-          uint8_t * newDepth = (uint8_t *)calloc(width * height * 2, sizeof(uint8_t));
-          uint8_t * newImage = (uint8_t *)calloc(width * height * 3, sizeof(uint8_t));
+          uint8_t * newDepth = (uint8_t *)calloc(w_ * h_ * 2, sizeof(uint8_t));
+          uint8_t * newImage = (uint8_t *)calloc(w_ * h_ * 3, sizeof(uint8_t));
           frameBuffers[i] = std::pair<std::pair<uint8_t *, uint8_t *>, int64_t>(std::pair<uint8_t *, uint8_t *>(newDepth, newImage), 0);
         }
 
@@ -155,9 +156,9 @@ void Openni2Grabber::run ()
   while (42) {
     if (latestDepthIndex.getValue() > lastUsedDepthIndex) {
       lastUsedDepthIndex = latestDepthIndex.getValue();
-      uint16_t* depth = (uint16_t*) frameBuffers[lastUsedDepthIndex%numBuffers].first.first;
+      uint16_t* depth = (uint16_t*)frameBuffers[lastUsedDepthIndex%numBuffers].first.first;
       uint8_t* rgb = frameBuffers[lastUsedDepthIndex%numBuffers].first.second;
-      rgbd_cb(rgb, depth, width, height);
+      rgbd_cb(rgb, depth);
     }
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
   }

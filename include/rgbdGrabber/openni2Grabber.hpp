@@ -8,6 +8,9 @@
 #include <thread>
 #include <chrono>
 
+#include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
+#include <rgbdGrabber/rgbdGrabberHelpers.hpp>
 #include <rgbdGrabber/ThreadMutexObject.h>
 
 namespace rgbdGrabber {
@@ -22,17 +25,14 @@ class Openni2Grabber
    Openni2Grabber(int w, int h, int fps);
    virtual ~Openni2Grabber();
 
-   virtual void rgbd_cb(const uint8_t* rgb, const uint16_t* depth) {
-      rgb_cb(rgb);
-      depth_cb(depth);
-   }
+   virtual void rgbd_cb(const uint8_t* rgb, const uint16_t* depth);
 
-   virtual void depth_cb(const uint16_t * depth) {};
-   virtual void rgb_cb(const uint8_t* rgb) {};
+//   virtual void depth_cb(const uint16_t * depth) {};
+//   virtual void rgb_cb(const uint8_t* rgb) {};
 
    virtual void run ();
 
-   const int width, height, fps;
+   const int w_, h_, fps;
 
    void printModes();
    bool findMode(int x, int y, int fps);
