@@ -78,10 +78,14 @@ target_link_libraries (realSenseGrabberApp
   rgbdGrabber
   )
 
-add_executable(openni2GrabberApp
-  ./src/openni2GrabberApp.cpp
-  )
+add_executable(openni2GrabberApp ./src/openni2GrabberApp.cpp)
 target_link_libraries (openni2GrabberApp
+  opencv_core opencv_highgui opencv_contrib opencv_imgproc
+  rgbdGrabber   
+  )
+
+add_executable(openni2MultiGrabberApp ./src/openni2MultiGrabberApp.cpp)
+target_link_libraries (openni2MultiGrabberApp
   opencv_core opencv_highgui opencv_contrib opencv_imgproc
   rgbdGrabber   
   )
