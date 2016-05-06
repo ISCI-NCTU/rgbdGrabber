@@ -1,6 +1,8 @@
 /* Copyright (c) 2016, Julian Straub <jstraub@csail.mit.edu>
  * Licensed under the MIT license. See the license file LICENSE.
  */
+#include <iostream>
+#include <sstream>
 #include <librealsense/rs.hpp>
 #include <rgbdGrabber/realSenseGrabber.hpp>
 
@@ -22,12 +24,22 @@ RealSenseGrabber::~RealSenseGrabber() {
 }
 
 void RealSenseGrabber::rgbd_cb(const uint8_t* rgb, const uint16_t * depth) {
+  static uint64_t frame_id = 0;
   cv::Mat dMap = cv::Mat(h_,w_,CV_16U,const_cast<uint16_t*>(depth));
   cv::Mat rgbMap = cv::Mat(h_,w_,CV_8UC3,const_cast<uint8_t*>(rgb));
   cv::Mat dColor = colorizeDepth(dMap, 30.,4000.);
+  //cv::Mat dColor = colorizeDepth(dMap);
   cv::imshow("rgb", rgbMap);
   cv::imshow("d", dColor);
-  cv::waitKey(1);
+  if (cv::waitKey(1) == ' ') {
+    std::cout << "saving frame " << frame_id << std::endl;
+    std::stringstream ss;
+    ss << frame_id; 
+    cv::imwrite((ss.str()+"_rgb.png").c_str(), rgbMap);
+    cv::imwrite((ss.str()+"_d.png").c_str(), dMap);
+    cv::imwrite((ss.str()+"_dCol.png").c_str(), dColor);
+  }
+  ++frame_id;
 };  
 
 void RealSenseGrabber::run() {

@@ -95,7 +95,7 @@ int main (int argc, char** argv)
     }
     depthStreams.push_back(new VideoStream());
 //    rc = depthStreams[i]->create(*devices[i], openni::SENSOR_DEPTH);
-    rc = depthStreams[i]->create(*devices[i], openni::SENSOR_COLOR);
+    rc = depthStreams[i]->create(*devices[i], openni::SENSOR_DEPTH);
     if (rc != STATUS_OK) {
       printf("Couldn't create depth stream\n%s\n", OpenNI::getExtendedError());
     }
